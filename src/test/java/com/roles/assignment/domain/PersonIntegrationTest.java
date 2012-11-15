@@ -135,6 +135,8 @@ public class PersonIntegrationTest {
         Assert.assertEquals(user.getPerson().getFirstName(), person.getFirstName());
         Assert.assertEquals(user.getPerson().getId(), person.getId());
         Assert.assertEquals(person.getUser().getId(), user.getId());*/
+        
+        /*test git 2*/
     }
 
     @Test
