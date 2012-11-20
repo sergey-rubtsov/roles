@@ -1,19 +1,19 @@
 package com.roles.assignment.ui.windows;
 
+import com.roles.assignment.domain.Person;
+import com.roles.assignment.service.PersonService;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.BaseTheme;
-import com.roles.assignment.domain.Person;
-import com.roles.assignment.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 
 @SuppressWarnings("serial")
-public class AddPersonForm extends VerticalLayout {
+public class AddUserForm extends VerticalLayout {
 
     @Autowired
     PersonService personService;
@@ -22,7 +22,7 @@ public class AddPersonForm extends VerticalLayout {
 
     private static final String COMMON_FIELD_WIDTH = "12em";
 
-    public AddPersonForm() {
+    public AddUserForm() {
 
         person = new Person();
         BeanItem<Person> personItem = new BeanItem<Person>(person);

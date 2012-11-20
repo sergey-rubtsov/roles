@@ -44,6 +44,8 @@ public class AdminWindow extends CustomComponent {
 
     private Button undoButton;
 
+    private Button addPersonButton;
+
     private Button addUserButton;
 
     private Button addObjectButton;
@@ -289,16 +291,30 @@ public class AdminWindow extends CustomComponent {
         controlUsers.setHeight("35px");
         controlUsers.setMargin(false);
 
-        // addUserButton
-        addUserButton = new Button("Add person", new Button.ClickListener() {
+        // addPersonButton
+        addPersonButton = new Button("Add person", new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                AddPersonWindow newPerson = new AddPersonWindow();
+                AddPersonWindow newPerson = new AddPersonWindow(false);
                 newPerson.center();
                 getWindow().addWindow(newPerson);
             }
         });
-        //addUserButton.setCaption("+");
+        addPersonButton.setImmediate(false);
+        addPersonButton.setWidth("-1px");
+        addPersonButton.setHeight("-1px");
+        controlUsers.addComponent(addPersonButton);
+        controlUsers.setComponentAlignment(addPersonButton, new Alignment(33));
+
+        // addUserButton
+        addUserButton = new Button("Add user", new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                AddPersonWindow newPerson = new AddPersonWindow(true);
+                newPerson.center();
+                getWindow().addWindow(newPerson);
+            }
+        });
         addUserButton.setImmediate(false);
         addUserButton.setWidth("-1px");
         addUserButton.setHeight("-1px");

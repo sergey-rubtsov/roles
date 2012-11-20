@@ -9,7 +9,7 @@ import com.vaadin.ui.Window;
  */
 public class AddPersonWindow extends Window {
 
-    public AddPersonWindow() {
+    public AddPersonWindow(boolean b) {
         setClosable(true);
         addListener(new Window.CloseListener() {
             public void windowClose(CloseEvent e) {
@@ -18,6 +18,8 @@ public class AddPersonWindow extends Window {
         VerticalLayout layout = (VerticalLayout) getContent();
         //layout.setMargin(true);
         layout.setSizeUndefined();
+        VerticalLayout addPersonLayout = new VerticalLayout();
+
         addComponent(new AddPersonForm());
     }
 }
