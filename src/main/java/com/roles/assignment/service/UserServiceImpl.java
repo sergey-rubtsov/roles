@@ -100,16 +100,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-/*    @Override
-    public List<User> findByLastName(String lastName) {
-        return userRepository.findByLastName(lastName);
-    }
-
-    @Override
-    public List<User> findByFirstName(String firstName) {
-        return userRepository.findByFirstName(firstName);
-    }*/
-
     @Override
     public List<User> findAllUsers() {
         return (List<User>) userRepository.findAll();
@@ -128,8 +118,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    @Override
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
 }

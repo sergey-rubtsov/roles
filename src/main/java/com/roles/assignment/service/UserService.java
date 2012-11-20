@@ -26,16 +26,10 @@ public interface UserService {
 
     public User addSystemUserRole(User user);
 
-    //public List<User> findByLastName(String lastName);
-
-    //public List<User> findByFirstName(String firstName);
-
 	public abstract List<User> findAllUsers();
 
 	public abstract User saveUser(User user, Person userDetails);
 
     public abstract User saveUser(User user);
-
-	public abstract User updateUser(User user);
 
 }

@@ -71,7 +71,7 @@ public class PersonIntegrationTest {
     }
 
     @Test
-    public void testGetUserNoCascade() throws Exception {
+    public void testGetUser() throws Exception {
         Person person = data.get(0);
         User user = UserIntegrationTest.getUser();
 
@@ -106,35 +106,6 @@ public class PersonIntegrationTest {
         Assert.assertEquals(childUser.getPerson().getFirstName(), childPerson.getFirstName());
         Assert.assertEquals(childUser.getPerson().getId(), childPerson.getId());
         Assert.assertEquals(childPerson.getUser().getId(), childUser.getId());
-    }
-
-    @Test
-    public void testGetUserCascade() throws Exception {
-        Person person = data.get(0);
-        User user = UserIntegrationTest.getUser();
-
-        String userId = userRepository.save(user).getId();
-        personRepository.save(person).getId();
-        person.setUser(user);
-        String personId = personRepository.save(person).getId();
-
-        person = personRepository.findOne(personId);
-
-        Assert.assertNotNull(person);
-        Assert.assertEquals(personId, person.getId());
-
-        user = person.getUser();
-
-        Assert.assertNotNull(user.getId());
-        Assert.assertEquals(UserIntegrationTest.getUser().getLogin(), user.getLogin());
-        Assert.assertEquals(userId, user.getId());
-
-        Assert.assertNotNull(person.getFirstName());
-/*      Assert.assertNotNull(user.getPerson());
-
-        Assert.assertEquals(user.getPerson().getFirstName(), person.getFirstName());
-        Assert.assertEquals(user.getPerson().getId(), person.getId());
-        Assert.assertEquals(person.getUser().getId(), user.getId());*/
     }
 
     @Test
@@ -258,6 +229,54 @@ public class PersonIntegrationTest {
         personRepository.flush();
         Assert.assertNull("Failed to remove 'Person' with identifier '" + id + "'", personService.findPerson(id));
     }*/
+
+    @Test
+    public void testFindByFirstName() {
+        ArrayList<Person> list = new ArrayList<Person>();
+        for (int i = 0; i < 10; i++) {
+            Person person = getNewTransientPerson(i);
+            if (i < 2) {
+                person.setFirstName("Control");
+            } else person.setFirstName("Test");
+            list.add(person);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            personRepository.save(list.get(i));
+        }
+        List<Person> foundTestList = personRepository.findByFirstName("Test");
+        List<Person> foundControlList = personRepository.findByFirstName("Control");
+        Assert.assertNotNull(foundTestList);
+        Assert.assertNotNull(foundControlList);
+        Assert.assertEquals(foundTestList.size(), 8);
+        Assert.assertEquals(foundControlList.size(), 2);
+        for (int i = 0; i < foundTestList.size(); i++) {
+            Assert.assertEquals("Test", foundTestList.get(i).getFirstName());
+        }
+    }
+
+    @Test
+    public void testFindByLastName() {
+        ArrayList<Person> list = new ArrayList<Person>();
+        for (int i = 0; i < 10; i++) {
+            Person person = getNewTransientPerson(i);
+            if (i < 2) {
+                person.setLastName("Control");
+            } else person.setLastName("Test");
+            list.add(person);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            personRepository.save(list.get(i));
+        }
+        List<Person> foundTestList = personRepository.findByLastName("Test");
+        List<Person> foundControlList = personRepository.findByLastName("Control");
+        Assert.assertNotNull(foundTestList);
+        Assert.assertNotNull(foundControlList);
+        Assert.assertEquals(foundTestList.size(), 8);
+        Assert.assertEquals(foundControlList.size(), 2);
+        for (int i = 0; i < foundTestList.size(); i++) {
+            Assert.assertEquals("Test", foundTestList.get(i).getLastName());
+        }
+    }
 
     public Person getNewTransientPerson(int index) {
         Person obj = new Person();

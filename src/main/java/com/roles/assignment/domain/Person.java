@@ -71,7 +71,7 @@ public class Person implements Serializable {
                 ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private User user;
 
     public User getUser() {

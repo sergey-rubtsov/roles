@@ -103,51 +103,6 @@ public class UserIntegrationTest {
         Assert.assertEquals(user.getLogin(), foundPerson.getUser().getLogin());
     }
 
-    //@Test
-    public void testOneToOneCascade() throws Exception {
-        User user = getUser();
-        Person person = getPerson();
-
-        String userId = userService.saveUser(user).getId();
-        String personId = personRepository.save(person).getId();
-
-        user = userService.findUser(userId);
-        person = personRepository.findOne(personId);
-        Assert.assertNotNull(user);
-        Assert.assertNotNull(person);
-
-        user.setPerson(person);
-        userId = userService.updateUser(user).getId();
-
-        user = userService.findUser(userId);
-        person = personRepository.findOne(personId);
-
-        Assert.assertNotNull(user.getPerson().getFirstName());
-        Assert.assertEquals(person.getFirstName(), user.getPerson().getFirstName());
-
-        Person foundPerson = personRepository.findOne(person.getId());
-        Assert.assertNotNull(foundPerson);
-        Assert.assertEquals(getPerson().getFirstName(), foundPerson.getFirstName());
-
-        Assert.assertNotNull(foundPerson.getUser());
-        Assert.assertNotNull(user.getLogin());
-
-        Assert.assertEquals(user.getLogin(), foundPerson.getUser().getLogin());
-    }
-
-
-/*
-    @Test
-    public void testGetByUser_Id() throws Exception {
-        Person person = data.get(0);
-        User user = UserIntegrationTest.getUser();
-        Long userId = userRepository.save(user).getId();
-        person.setUser(user);
-        Long personId = personRepository.save(person).getId();
-        person = personRepository.getByUser_Id(userId);
-        Assert.assertEquals(personId, person.getId());
-    }*/
-    
     public Person getPerson() {
         Person person = new Person();
         person.setFirstName("Santa");
@@ -174,19 +129,13 @@ public class UserIntegrationTest {
         roleAdmin = roleRepository.save(roleAdmin);
         roles.add(roleAdmin);
         user.setRoles(roles);
-        id = userService.updateUser(user).getId();
+        id = userService.saveUser(user).getId();
         Assert.assertEquals(1, userService.findUser(id).getRoles().size());
         Assert.assertEquals(SystemRoles.ROLE_ADMIN.roleValue(), userService.findUser(id).getRoles().get(0).getRoleValue());
         Set rolesSet = new HashSet<Role>();
         user = userService.findUser(id);
         rolesSet = user.getRoleSet();
         Assert.assertTrue(rolesSet.contains(roleAdmin.getRoleValue()));
-        /*
-       Assert.assertEquals(SystemRoles.ROLE_USER, userService.findUser(id).getRoleValue());
-       user.setRole(SystemRoles.ROLE_ADMIN);
-       id = userService.saveUser(user);
-       Assert.assertEquals(SystemRoles.ROLE_ADMIN, userService.findUser(id).getRoleValue());
-       */
     }
     
     @Test

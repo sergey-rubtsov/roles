@@ -15,7 +15,4 @@ public interface UserRepository extends CrudRepository<User, String> {
      * @return
      */
     User findByLoginLike(String login);
-    
-    User getByPerson_Id(Long personId);
-
 }

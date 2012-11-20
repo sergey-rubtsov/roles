@@ -43,10 +43,6 @@ public class PersonServiceImpl implements PersonService {
         return personRepository.save(person);
     }
 
-	public Person updatePerson(Person person) {
-        return personRepository.save(person);
-    }
-
 	public List<Person> findPersonEntries(QueryMetaData queryMetaData) {
         return findAllPeople();
 /*		List<Person> people = null;

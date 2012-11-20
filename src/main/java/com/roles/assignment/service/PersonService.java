@@ -19,8 +19,6 @@ public interface PersonService {
 
 	public abstract Person savePerson(Person person);
 
-	public abstract Person updatePerson(Person person);
-
 	public abstract List<Person> findPersonEntries(QueryMetaData queryMetaData);
 
 }

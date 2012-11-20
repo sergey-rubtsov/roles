@@ -53,7 +53,7 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     protected List<Role> roles = new ArrayList<Role>();
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Person person;
 
     public User() {
