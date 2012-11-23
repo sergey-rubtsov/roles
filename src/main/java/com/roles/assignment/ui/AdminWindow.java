@@ -2,7 +2,6 @@ package com.roles.assignment.ui;
 
 import com.roles.assignment.StartApplication;
 import com.roles.assignment.ui.persons.PersonWidget;
-import com.roles.assignment.ui.roles.AddPersonWindow;
 import com.vaadin.ui.*;
 
 public class AdminWindow extends CustomComponent {
@@ -12,25 +11,15 @@ public class AdminWindow extends CustomComponent {
     private TabSheet tabs;
     private AbsoluteLayout logs;
     private AbsoluteLayout roleManage;
-    private AbsoluteLayout usersLayout;
-    private HorizontalLayout controlUsers;
-    private VerticalLayout userEntities;
-    private AbsoluteLayout treeLayout;
-    private HorizontalLayout controlTreeButtons;
-    private Tree tree;
     private HorizontalLayout title;
     private Label userLabel;
     private HorizontalLayout mainButtonsPanel;
     private Button saveButton;
     private Button undoButton;
-    private Button addPersonButton;
-    private Button addUserButton;
-    private Button addObjectButton;
     private AbsoluteLayout usersManage;
     private StartApplication app;
 
     public AdminWindow(StartApplication app) {
-    //public AdminWindow() {
         super();
         this.app = app;
         buildMainLayout();
@@ -166,16 +155,6 @@ public class AdminWindow extends CustomComponent {
         return usersManage;
     }
 
-    private AbsoluteLayout buildLogs() {
-        AbsoluteLayout logs = new AbsoluteLayout();
-        logs.setStyleName("main");
-        logs.setImmediate(false);
-        logs.setWidth("100.0%");
-        logs.setHeight("100.0%");
-        logs.setMargin(false);
-        return logs;
-    }
-
     private AbsoluteLayout buildRoleManage() {
         // common part: create layout
         AbsoluteLayout roleManage = new AbsoluteLayout();
@@ -185,143 +164,17 @@ public class AdminWindow extends CustomComponent {
         roleManage.setHeight("100.0%");
         roleManage.setMargin(false);
 
-        // treeLayout
-        treeLayout = buildTreeLayout();
-        roleManage.addComponent(treeLayout,
-                "top:0.0px;bottom:0.0px;left:10.0px;");
-
-        // usersLayout
-        usersLayout = buildUsersLayout();
-        roleManage.addComponent(usersLayout,
-                "top:0.0px;right:10.0px;bottom:0.0px;");
-
         return roleManage;
     }
 
-
-    private AbsoluteLayout buildTreeLayout() {
-        // common part: create layout
-        treeLayout = new AbsoluteLayout();
-        treeLayout.setImmediate(false);
-        treeLayout.setWidth("70.0%");
-        treeLayout.setHeight("100.0%");
-        treeLayout.setMargin(false);
-
-        // tree
-        tree = new Tree();
-        tree.setImmediate(false);
-        tree.setWidth("100.0%");
-        tree.setHeight("100.0%");
-        treeLayout.addComponent(tree, "top:10.0px;bottom:35.0px;left:0.0px;");
-
-        // controlTreeButtons
-        controlTreeButtons = new HorizontalLayout();
-        controlTreeButtons.setImmediate(false);
-        controlTreeButtons.setWidth("100.0%");
-        controlTreeButtons.setHeight("35px");
-        controlTreeButtons.setMargin(false);
-        treeLayout.addComponent(controlTreeButtons, "bottom:0.0px;left:0.0px;");
-
-        // controlTreeButtons
-        controlTreeButtons = buildControlTreeButtons();
-        treeLayout.addComponent(controlTreeButtons, "bottom:0.0px;left:0.0px;");
-
-        return treeLayout;
-    }
-
-    private HorizontalLayout buildControlTreeButtons() {
-        // common part: create layout
-        controlTreeButtons = new HorizontalLayout();
-        controlTreeButtons.setImmediate(false);
-        controlTreeButtons.setWidth("100.0%");
-        controlTreeButtons.setHeight("35px");
-        controlTreeButtons.setMargin(false);
-
-        // addObjectButton
-        addObjectButton = new Button();
-        addObjectButton.setCaption("+");
-        addObjectButton.setImmediate(false);
-        addObjectButton.setWidth("-1px");
-        addObjectButton.setHeight("-1px");
-        controlTreeButtons.addComponent(addObjectButton);
-        controlTreeButtons.setComponentAlignment(addObjectButton,
-                new Alignment(33));
-
-        return controlTreeButtons;
-    }
-
-
-    private AbsoluteLayout buildUsersLayout() {
-        // common part: create layout
-        usersLayout = new AbsoluteLayout();
-        usersLayout.setImmediate(false);
-        usersLayout.setWidth("30.0%");
-        usersLayout.setHeight("100.0%");
-        usersLayout.setMargin(false);
-
-        // userEntities
-        userEntities = new VerticalLayout();
-        userEntities.setImmediate(false);
-        userEntities.setWidth("100.0%");
-        userEntities.setHeight("100.0%");
-        userEntities.setMargin(false);
-        usersLayout.addComponent(userEntities,
-                "top:10.0px;bottom:35.0px;left:0.0px;");
-
-        // controlUsers
-        controlUsers = new HorizontalLayout();
-        controlUsers.setImmediate(false);
-        controlUsers.setWidth("100.0%");
-        controlUsers.setHeight("35px");
-        controlUsers.setMargin(false);
-        usersLayout.addComponent(controlUsers, "bottom:0.0px;left:0.0px;");
-
-        // controlUsers
-        controlUsers = buildControlUsers();
-        usersLayout.addComponent(controlUsers, "bottom:0.0px;left:0.0px;");
-
-        return usersLayout;
-    }
-
-    private HorizontalLayout buildControlUsers() {
-        // common part: create layout
-        controlUsers = new HorizontalLayout();
-        controlUsers.setImmediate(false);
-        controlUsers.setWidth("100.0%");
-        controlUsers.setHeight("35px");
-        controlUsers.setMargin(false);
-
-        // addPersonButton
-        addPersonButton = new Button("Add person", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                AddPersonWindow newPerson = new AddPersonWindow(false);
-                newPerson.center();
-                getWindow().addWindow(newPerson);
-            }
-        });
-        addPersonButton.setImmediate(false);
-        addPersonButton.setWidth("-1px");
-        addPersonButton.setHeight("-1px");
-        controlUsers.addComponent(addPersonButton);
-        controlUsers.setComponentAlignment(addPersonButton, new Alignment(33));
-
-        // addUserButton
-        addUserButton = new Button("Add user", new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent event) {
-                AddPersonWindow newPerson = new AddPersonWindow(true);
-                newPerson.center();
-                getWindow().addWindow(newPerson);
-            }
-        });
-        addUserButton.setImmediate(false);
-        addUserButton.setWidth("-1px");
-        addUserButton.setHeight("-1px");
-        controlUsers.addComponent(addUserButton);
-        controlUsers.setComponentAlignment(addUserButton, new Alignment(33));
-
-        return controlUsers;
+    private AbsoluteLayout buildLogs() {
+        AbsoluteLayout logs = new AbsoluteLayout();
+        logs.setStyleName("main");
+        logs.setImmediate(false);
+        logs.setWidth("100.0%");
+        logs.setHeight("100.0%");
+        logs.setMargin(false);
+        return logs;
     }
 }
 

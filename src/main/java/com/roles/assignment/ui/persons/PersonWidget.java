@@ -103,7 +103,7 @@ public class PersonWidget extends VerticalLayout implements
         search.setIcon(new ThemeResource("icons/32/folder-add.png"));
         search.addListener((Button.ClickListener) this);
         lo.addComponent(search);
-        share.setIcon(new ThemeResource("icons/32/persons.png"));
+        share.setIcon(new ThemeResource("icons/32/users.png"));
         share.addListener((Button.ClickListener) this);
         lo.addComponent(share);
         help.setIcon(new ThemeResource("icons/32/help.png"));
