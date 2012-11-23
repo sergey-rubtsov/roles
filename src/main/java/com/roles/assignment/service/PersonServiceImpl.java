@@ -2,7 +2,7 @@ package com.roles.assignment.service;
 
 import com.roles.assignment.domain.Person;
 import com.roles.assignment.repository.PersonRepository;
-import com.roles.assignment.ui.QueryMetaData;
+import com.roles.assignment.ui.persons.QueryMetaData;
 import com.roles.assignment.utils.Paging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

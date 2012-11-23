@@ -1,7 +1,7 @@
 package com.roles.assignment;
 
-import com.roles.assignment.ui.ReferenceContainer;
-import com.roles.assignment.ui.SearchFilter;
+import com.roles.assignment.ui.persons.ReferenceContainer;
+import com.roles.assignment.ui.persons.SearchFilter;
 
 /**
  * User: RubtsovSL

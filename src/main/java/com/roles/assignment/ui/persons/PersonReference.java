@@ -1,4 +1,4 @@
-package com.roles.assignment.ui;
+package com.roles.assignment.ui.persons;
 
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;

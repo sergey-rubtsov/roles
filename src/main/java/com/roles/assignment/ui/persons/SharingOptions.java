@@ -1,4 +1,4 @@
-package com.roles.assignment.ui;
+package com.roles.assignment.ui.persons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Label;

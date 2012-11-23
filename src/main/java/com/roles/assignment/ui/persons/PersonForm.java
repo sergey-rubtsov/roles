@@ -1,4 +1,4 @@
-package com.roles.assignment.ui;
+package com.roles.assignment.ui.persons;
 
 import com.roles.assignment.Widget;
 import com.vaadin.data.Item;
@@ -7,7 +7,6 @@ import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.roles.assignment.Widget;
 import com.roles.assignment.domain.Person;
 import com.roles.assignment.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;

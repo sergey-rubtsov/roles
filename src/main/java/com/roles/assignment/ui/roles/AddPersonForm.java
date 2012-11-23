@@ -1,4 +1,4 @@
-package com.roles.assignment.ui.windows;
+package com.roles.assignment.ui.roles;
 
 import com.roles.assignment.domain.Person;
 import com.roles.assignment.service.PersonService;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 
 @SuppressWarnings("serial")
-public class AddUserForm extends VerticalLayout {
+public class AddPersonForm extends VerticalLayout {
 
     @Autowired
     PersonService personService;
@@ -22,8 +22,7 @@ public class AddUserForm extends VerticalLayout {
 
     private static final String COMMON_FIELD_WIDTH = "12em";
 
-    public AddUserForm() {
-
+    public AddPersonForm(boolean userCredentials) {
         person = new Person();
         BeanItem<Person> personItem = new BeanItem<Person>(person);
 
@@ -65,16 +64,7 @@ public class AddUserForm extends VerticalLayout {
             }
         });
         buttons.addComponent(apply);
-
-        CheckBox addUserCredentials = new CheckBox("Add User Credentials", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                //create me
-            }
-        });
-
         personForm.getFooter().addComponent(buttons);
-        personForm.getFooter().addComponent(addUserCredentials);
         personForm.getFooter().setMargin(false, false, true, true);
     }
 

@@ -1,4 +1,4 @@
-package com.roles.assignment.ui;
+package com.roles.assignment.ui.persons;
 
 import com.roles.assignment.Widget;
 import com.vaadin.data.Property;
@@ -38,7 +38,7 @@ public class PersonList extends Table {
 		setSelectable(true);
 		setImmediate(true);
 		addListener((Property.ValueChangeListener) main);
-		/* We don't want to allow users to de-select a row */
+		/* We don't want to allow persons to de-select a row */
 		setNullSelectionAllowed(false);
 	}
 }

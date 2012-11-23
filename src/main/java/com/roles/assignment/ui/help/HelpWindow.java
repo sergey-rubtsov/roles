@@ -1,4 +1,4 @@
-package com.roles.assignment.ui;
+package com.roles.assignment.ui.help;
 
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;

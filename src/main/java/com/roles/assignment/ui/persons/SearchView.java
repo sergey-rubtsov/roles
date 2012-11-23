@@ -1,10 +1,9 @@
-package com.roles.assignment.ui;
+package com.roles.assignment.ui.persons;
 
 import com.roles.assignment.Widget;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.roles.assignment.Widget;
 
 public class SearchView extends Panel {
 

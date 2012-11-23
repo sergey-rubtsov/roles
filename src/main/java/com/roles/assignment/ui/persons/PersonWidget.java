@@ -1,5 +1,10 @@
-package com.roles.assignment;
+package com.roles.assignment.ui.persons;
 
+import com.roles.assignment.StartApplication;
+import com.roles.assignment.Widget;
+import com.roles.assignment.domain.Person;
+import com.roles.assignment.service.PersonService;
+import com.roles.assignment.ui.help.HelpWindow;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.event.ItemClickEvent;
@@ -8,18 +13,15 @@ import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Window.Notification;
-import com.roles.assignment.domain.Person;
-import com.roles.assignment.service.PersonService;
-import com.roles.assignment.service.UserService;
-import com.roles.assignment.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 @Configurable(preConstruction=true)
-public class AdminWidget extends VerticalLayout implements
+public class PersonWidget extends VerticalLayout implements
         Button.ClickListener, Property.ValueChangeListener, ItemClickListener, Widget {
-    private Button newContact = new Button("Add user");
+    private Button newContact = new Button("Add contact");
     private Button search = new Button("Search");
+    private Button share = new Button("Share");
     private Button help = new Button("Help");
     private HorizontalSplitPanel horizontalSplit = new HorizontalSplitPanel();
     private NavigationTree tree = new NavigationTree(this);
@@ -32,14 +34,11 @@ public class AdminWidget extends VerticalLayout implements
     @Autowired
     PersonService personService;
 
-    @Autowired
-    UserService userService;
-
     private PersonReferenceContainer personDataSource;
 
     private static final long serialVersionUID = -1481094776783567319L;
 
-    public AdminWidget(StartApplication app) {
+    public PersonWidget(StartApplication app) {
         super();
         this.app = app;
         createMainLayout();
@@ -51,20 +50,12 @@ public class AdminWidget extends VerticalLayout implements
         this.setSizeFull();
         this.addComponent(createToolbar());
         this.addComponent(horizontalSplit);
-        /* Allocate all available extra space to the horizontal split panel */
         this.setExpandRatio(horizontalSplit, 1);
-        /*
-           * Set the initial split position so we can have a 200 pixel menu to the
-           * left
-           */
         horizontalSplit.setSplitPosition(150, HorizontalSplitPanel.UNITS_PIXELS);
         horizontalSplit.setFirstComponent(tree);
-        //
         personDataSource = new PersonReferenceContainer(personService);
         getDataSource().refresh();
         setMainComponent(getListView());
-        app.getMainWindow().setContent(this);
-
     }
 
     // lazy initialization pattern
@@ -85,6 +76,15 @@ public class AdminWidget extends VerticalLayout implements
         return helpWindow;
     }
 
+    SharingOptions sharingOptions = null;
+
+    private SharingOptions getSharingOptions() {
+        if (sharingOptions == null) {
+            sharingOptions = new SharingOptions();
+        }
+        return sharingOptions;
+    }
+
     private SearchView searchView = null;
 
     private SearchView getSearchView() {
@@ -103,6 +103,9 @@ public class AdminWidget extends VerticalLayout implements
         search.setIcon(new ThemeResource("icons/32/folder-add.png"));
         search.addListener((Button.ClickListener) this);
         lo.addComponent(search);
+        share.setIcon(new ThemeResource("icons/32/persons.png"));
+        share.addListener((Button.ClickListener) this);
+        lo.addComponent(share);
         help.setIcon(new ThemeResource("icons/32/help.png"));
         help.addListener((Button.ClickListener) this);
         lo.addComponent(help);
@@ -149,9 +152,11 @@ public class AdminWidget extends VerticalLayout implements
         if (source == search) {
             showSearchView();
         } else if (source == newContact) {
-            addNewUser();
+            addNewContanct();
         } else if (source == help) {
             app.getMainWindow().addWindow(getHelpWindow());
+        } else if (source == share) {
+            app.getMainWindow().addWindow(getSharingOptions());
         }
     }
 
@@ -160,7 +165,7 @@ public class AdminWidget extends VerticalLayout implements
             Object itemId = event.getItemId();
             if (itemId != null) {
                 if (NavigationTree.SHOW_ALL.equals(itemId)) {
-                    //getDataSource().refresh(PersonReferenceContainer.defaultQueryMetaData);
+                    getDataSource().refresh(PersonReferenceContainer.defaultQueryMetaData);
                     showListView();
                 } else if (NavigationTree.SEARCH.equals(itemId)) {
                     showSearchView();
@@ -175,7 +180,7 @@ public class AdminWidget extends VerticalLayout implements
         setMainComponent(getListView());
     }
 
-    private void addNewUser() {
+    private void addNewContanct() {
         showListView();
         personForm.addContact();
     }
@@ -190,20 +195,6 @@ public class AdminWidget extends VerticalLayout implements
         tree.expandItem(NavigationTree.SEARCH);
         // select the saved search
         tree.setValue(searchFilter);
-    }
-
-    @Override
-    public Object[] getNaturalColOrder() {
-        return new Object[] {
-                "firstName", "lastName", "email", "phoneNumber", "streetAddress",
-                "postalCode", "city" };
-    }
-
-    @Override
-    public String[] getColHeadersEnglish() {
-        return new String[] {
-                "First name", "Last name", "Email", "Phone number",
-                "Street Address", "Postal Code", "City" };
     }
 
     @Override
@@ -230,5 +221,19 @@ public class AdminWidget extends VerticalLayout implements
                             + searchFilter.getTerm() + "*, person not found.",
                     Notification.TYPE_TRAY_NOTIFICATION);
         }
+    }
+
+    @Override
+    public Object[] getNaturalColOrder() {
+        return new Object[] {
+                "firstName", "lastName", "email", "phoneNumber", "streetAddress",
+                "postalCode", "city" };
+    }
+
+    @Override
+    public String[] getColHeadersEnglish() {
+        return new String[] {
+                "First name", "Last name", "Email", "Phone number",
+                "Street Address", "Postal Code", "City" };
     }
 }

@@ -1,4 +1,4 @@
-package com.roles.assignment.ui;
+package com.roles.assignment.ui.persons;
 
 import com.roles.assignment.Widget;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;

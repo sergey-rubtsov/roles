@@ -1,7 +1,7 @@
 package com.roles.assignment;
 
+import com.roles.assignment.ui.AdminWindow;
 import com.vaadin.ui.*;
-import com.roles.assignment.ui.windows.AdminWindow;
 import org.apache.shiro.authc.*;
 
 @SuppressWarnings("serial")
@@ -45,20 +45,17 @@ public class LoginScreen extends VerticalLayout {
         public void onLogin(final LoginForm.LoginEvent event) {
             final String username = event.getLoginParameter("username");
             final String password = event.getLoginParameter("password");
-            //app.getMainWindow().setContent(new OperatorInterface());
-            //app.getMainWindow().setContent(new Order());
-            app.getMainWindow().setContent(new AdminWindow());
-            //app.getMainWindow().setContent(new Incoming());
-            //app.getMainWindow().setContent(new IncomingJournal());
+
+            app.getMainWindow().setContent(new AdminWindow(app));
 
             try {
 /*                app.login(username, password);
                 Subject currentUser = SecurityUtils.getSubject();
                 if (currentUser.hasRole(SystemRoles.ROLE_ADMIN.roleValue())) {
-                    app.getMainWindow().setContent(new AdminWidget(app));
+                    app.getMainWindow().setContent(new AdminWidgetToDelete(app));
                 }
                 if (currentUser.hasRole(SystemRoles.ROLE_USER.roleValue())) {
-                    app.getMainWindow().setContent(new AddressWidget(app));
+                    app.getMainWindow().setContent(new PersonWidget(app));
                 }*/
             } catch (UnknownAccountException uae) {
                 this.loginForm.getWindow().showNotification("Invalid User " + uae, Window.Notification.TYPE_ERROR_MESSAGE);
