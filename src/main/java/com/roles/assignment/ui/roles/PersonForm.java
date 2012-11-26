@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 
 @SuppressWarnings("serial")
-public class AddPersonForm extends VerticalLayout {
+public class PersonForm extends VerticalLayout {
 
     @Autowired
     PersonService personService;
@@ -22,7 +22,7 @@ public class AddPersonForm extends VerticalLayout {
 
     private static final String COMMON_FIELD_WIDTH = "12em";
 
-    public AddPersonForm(boolean userCredentials) {
+    public PersonForm() {
         person = new Person();
         BeanItem<Person> personItem = new BeanItem<Person>(person);
 
@@ -92,12 +92,5 @@ public class AddPersonForm extends VerticalLayout {
             }
             return f;
         }
-
-/*        private PasswordField createPasswordField(Object propertyId) {
-            PasswordField pf = new PasswordField();
-            pf.setCaption(DefaultFieldFactory
-                    .createCaptionByPropertyId(propertyId));
-            return pf;
-        }*/
     }
 }

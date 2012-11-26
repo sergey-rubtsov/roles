@@ -19,9 +19,9 @@ public class AddPersonWindow extends Window {
         //layout.setMargin(true);
         layout.setSizeUndefined();
         VerticalLayout addPersonLayout = new VerticalLayout();
-        addPersonLayout.addComponent(new AddPersonForm(userCredentials));
+        addPersonLayout.addComponent(new PersonForm(userCredentials));
         if (userCredentials) {
-            addPersonLayout.addComponent(new AddUserForm());
+            addPersonLayout.addComponent(new UserForm());
         }
         addComponent(addPersonLayout);
     }

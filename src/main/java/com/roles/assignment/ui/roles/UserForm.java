@@ -1,7 +1,7 @@
 package com.roles.assignment.ui.roles;
 
-import com.roles.assignment.domain.Person;
-import com.roles.assignment.service.PersonService;
+import com.roles.assignment.domain.User;
+import com.roles.assignment.service.UserService;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -13,40 +13,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 
 @SuppressWarnings("serial")
-public class AddUserForm extends VerticalLayout {
+public class UserForm extends VerticalLayout {
 
     @Autowired
-    PersonService personService;
+    UserService userService;
 
-    Person person;
+    User user;
 
     private static final String COMMON_FIELD_WIDTH = "12em";
 
-    public AddUserForm() {
-        //Эту форму отдельно и с полем, где можно выбрать Person
-        person = new Person();
-        BeanItem<Person> personItem = new BeanItem<Person>(person);
+    public UserForm() {
+        user = new User();
+        BeanItem<User> personItem = new BeanItem<User>(user);
 
-        final Form personForm = new Form();
-        personForm.setCaption("User details");
-        personForm.setWriteThrough(false);
-        personForm.setInvalidCommitted(false);
+        final Form userForm = new Form();
+        userForm.setCaption("User details");
+        userForm.setWriteThrough(false);
+        userForm.setInvalidCommitted(false);
 
 
-        personForm.setFormFieldFactory(new PersonFieldFactory());
-        personForm.setItemDataSource(personItem);
+        userForm.setFormFieldFactory(new PersonFieldFactory());
+        userForm.setItemDataSource(personItem);
 
-        personForm.setVisibleItemProperties(Arrays.asList(new String[]{
+        userForm.setVisibleItemProperties(Arrays.asList(new String[]{
                 "login", "password", "email", "role"}));
 
-        addComponent(personForm);
+        addComponent(userForm);
 
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.setSpacing(true);
         Button discardChanges = new Button("Discard changes",
                 new Button.ClickListener() {
                     public void buttonClick(ClickEvent event) {
-                        personForm.discard();
+                        userForm.discard();
                     }
                 });
         discardChanges.setStyleName(BaseTheme.BUTTON_LINK);
@@ -56,26 +55,15 @@ public class AddUserForm extends VerticalLayout {
         Button apply = new Button("Apply", new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
                 try {
-                    personForm.commit();
-                    personService.savePerson(person);
-                    //showPojoState();
+                    userForm.commit();
+                    userService.saveUser(user);
                 } catch (Exception e) {
-                    // Ignored, we'll let the Form handle the errors
                 }
             }
         });
         buttons.addComponent(apply);
-
-        CheckBox addUserCredentials = new CheckBox("Add User Credentials", new Button.ClickListener() {
-            @Override
-            public void buttonClick(ClickEvent event) {
-                //create me
-            }
-        });
-
-        personForm.getFooter().addComponent(buttons);
-        personForm.getFooter().addComponent(addUserCredentials);
-        personForm.getFooter().setMargin(false, false, true, true);
+        userForm.getFooter().addComponent(buttons);
+        userForm.getFooter().setMargin(false, false, true, true);
     }
 
     private class PersonFieldFactory extends DefaultFieldFactory {
