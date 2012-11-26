@@ -139,18 +139,6 @@ public class User implements Serializable {
         return credentialsExpired;
     }
 
-/*    @Column(name = "role")
-    @Enumerated(EnumType.ORDINAL)
-    private SystemRoles role = SystemRoles.ROLE_USER;
-
-    public SystemRoles getRoleValue() {
-        return role;
-    }
-
-    public void setRole(SystemRoles role) {
-        this.role = role;
-    }*/
-
     public void setPassword(char[] password) {
         this.setPassword(password.toString());
     }
