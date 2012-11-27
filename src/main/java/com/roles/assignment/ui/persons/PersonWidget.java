@@ -42,8 +42,6 @@ public class PersonWidget extends VerticalLayout implements
         super();
         this.app = app;
         createMainLayout();
-        final Button logout = new Button("logout");
-        logout.addListener(new StartApplication.LogoutListener(app));
     }
 
     private void createMainLayout() {

@@ -2,6 +2,7 @@ package com.roles.assignment.ui;
 
 import com.roles.assignment.StartApplication;
 import com.roles.assignment.ui.persons.PersonWidget;
+import com.roles.assignment.ui.roles.RoleWidget;
 import com.vaadin.ui.*;
 
 public class AdminWindow extends CustomComponent {
@@ -13,6 +14,7 @@ public class AdminWindow extends CustomComponent {
     private AbsoluteLayout roleManage;
     private HorizontalLayout title;
     private Label userLabel;
+    private Button logout;
     private HorizontalLayout mainButtonsPanel;
     private Button saveButton;
     private Button undoButton;
@@ -80,14 +82,21 @@ public class AdminWindow extends CustomComponent {
         mainButtonsPanel = buildMainButtonsPanel();
         title.addComponent(mainButtonsPanel);
 
-        // userLabel
+        // rightPanel
+        HorizontalLayout rightPanel = new HorizontalLayout();
+        rightPanel.setSpacing(true);
         userLabel = new Label();
         userLabel.setImmediate(false);
         userLabel.setWidth("-1px");
         userLabel.setHeight("-1px");
         userLabel.setValue("User");
-        title.addComponent(userLabel);
-        title.setComponentAlignment(userLabel, new Alignment(6));
+        rightPanel.addComponent(userLabel);
+        logout = new Button("Logout");
+        logout.addListener(new StartApplication.LogoutListener(app));
+        rightPanel.addComponent(logout);
+
+        title.addComponent(rightPanel);
+        title.setComponentAlignment(rightPanel, new Alignment(6));
 
         return title;
     }
@@ -131,7 +140,7 @@ public class AdminWindow extends CustomComponent {
 
         // usersManage
         usersManage = buildUsersManage();
-        tabs.addTab(usersManage, "Users", null);
+        tabs.addTab(usersManage, "Persons", null);
 
         // roleManage
         roleManage = buildRoleManage();
@@ -163,7 +172,7 @@ public class AdminWindow extends CustomComponent {
         roleManage.setWidth("100.0%");
         roleManage.setHeight("100.0%");
         roleManage.setMargin(false);
-
+        roleManage.addComponent(new RoleWidget(null));
         return roleManage;
     }
 

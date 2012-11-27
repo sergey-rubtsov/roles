@@ -3,12 +3,14 @@ package com.roles.assignment.ui.roles;
 import com.roles.assignment.StartApplication;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
+import org.springframework.beans.factory.annotation.Configurable;
 
 /**
  * User: RubtsovSL
  * Date: 23.11.12
  * Time: 16:14
  */
+@Configurable(preConstruction=true)
 public class RoleWidget extends VerticalLayout {
 
     private HorizontalSplitPanel horizontalSplit = new HorizontalSplitPanel();
