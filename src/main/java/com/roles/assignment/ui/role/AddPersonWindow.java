@@ -1,5 +1,7 @@
-package com.roles.assignment.ui.roles;
+package com.roles.assignment.ui.role;
 
+import com.roles.assignment.ui.person.PersonForm;
+import com.roles.assignment.ui.person.UserForm;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 /**

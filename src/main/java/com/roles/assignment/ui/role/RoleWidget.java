@@ -1,4 +1,4 @@
-package com.roles.assignment.ui.roles;
+package com.roles.assignment.ui.role;
 
 import com.roles.assignment.StartApplication;
 import com.vaadin.terminal.ThemeResource;

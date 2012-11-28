@@ -1,4 +1,4 @@
-package com.roles.assignment.ui.roles;
+package com.roles.assignment.ui.person;
 
 import com.roles.assignment.domain.Person;
 import com.roles.assignment.service.PersonService;
@@ -9,10 +9,12 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.themes.BaseTheme;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import java.util.Arrays;
 
 @SuppressWarnings("serial")
+@Configurable(preConstruction=true)
 public class PersonForm extends VerticalLayout {
 
     @Autowired
@@ -21,6 +23,10 @@ public class PersonForm extends VerticalLayout {
     Person person;
 
     private static final String COMMON_FIELD_WIDTH = "12em";
+
+    public PersonForm(Object obj) {
+        this();
+    }
 
     public PersonForm() {
         person = new Person();

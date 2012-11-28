@@ -1,8 +1,8 @@
 package com.roles.assignment.ui;
 
 import com.roles.assignment.StartApplication;
-import com.roles.assignment.ui.persons.PersonWidget;
-import com.roles.assignment.ui.roles.RoleWidget;
+import com.roles.assignment.ui.person.PersonWidget;
+import com.roles.assignment.ui.role.RoleWidget;
 import com.vaadin.ui.*;
 
 public class AdminWindow extends CustomComponent {
@@ -160,7 +160,7 @@ public class AdminWindow extends CustomComponent {
         usersManage.setWidth("100.0%");
         usersManage.setHeight("100.0%");
         usersManage.setMargin(false);
-        usersManage.addComponent(new PersonWidget(null));
+        usersManage.addComponent(new PersonWidget(app));
         return usersManage;
     }
 
@@ -172,7 +172,7 @@ public class AdminWindow extends CustomComponent {
         roleManage.setWidth("100.0%");
         roleManage.setHeight("100.0%");
         roleManage.setMargin(false);
-        roleManage.addComponent(new RoleWidget(null));
+        roleManage.addComponent(new RoleWidget(app));
         return roleManage;
     }
 
