@@ -119,10 +119,8 @@ public class PersonIntegrationTest {
 
     @Test
     public void testFindByLastNameLike() {
-        ArrayList<Person> list = new ArrayList<Person>();
         for (int i = 0; i < 5; i++) {
             Person person = new Person();
-            person.setEmail("mail" + i);
             if (i < 4) {
                 person.setLastName("Similar");
                 person.setFirstName("name" + i);
@@ -281,7 +279,6 @@ public class PersonIntegrationTest {
     public Person getNewTransientPerson(int index) {
         Person obj = new Person();
         setCity(obj, index);
-        setEmail(obj, index);
         setFirstName(obj, index);
         setLastName(obj, index);
         setPhoneNumber(obj, index);
@@ -296,11 +293,6 @@ public class PersonIntegrationTest {
             city = city.substring(0, 20);
         }
         obj.setCity(city);
-    }
-
-    public void setEmail(Person obj, int index) {
-        String email = "foo" + index + "@bar.com";
-        obj.setEmail(email);
     }
 
     public void setFirstName(Person obj, int index) {
@@ -373,8 +365,6 @@ public class PersonIntegrationTest {
                 p.setFirstName(fnames[r.nextInt(fnames.length)]);
                 p.setLastName(lnames[r.nextInt(lnames.length)]);
                 p.setCity(cities[r.nextInt(cities.length)]);
-                p.setEmail(p.getFirstName().toLowerCase() + "."
-                        + p.getLastName().toLowerCase() + "@assignment.com");
                 p.setPhoneNumber("+358 02 555 " + r.nextInt(10) + r.nextInt(10)
                         + r.nextInt(10) + r.nextInt(10));
                 int n = r.nextInt(100000);

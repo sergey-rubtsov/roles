@@ -107,7 +107,6 @@ public class UserIntegrationTest {
         Person person = new Person();
         person.setFirstName("Santa");
         person.setLastName("Klaus");
-        person.setEmail("North");
         return person;
     }
 
@@ -115,7 +114,6 @@ public class UserIntegrationTest {
         Person person = new Person();
         person.setFirstName("Darth");
         person.setLastName("Vader");
-        person.setEmail("South");
         return person;
     }
 

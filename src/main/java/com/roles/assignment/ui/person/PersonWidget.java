@@ -5,6 +5,7 @@ import com.roles.assignment.Widget;
 import com.roles.assignment.domain.Person;
 import com.roles.assignment.service.PersonService;
 import com.roles.assignment.service.UserService;
+import com.roles.assignment.ui.EntityForm;
 import com.roles.assignment.ui.help.HelpWindow;
 import com.roles.assignment.ui.persons.*;
 import com.vaadin.data.Property;
@@ -27,11 +28,11 @@ public class PersonWidget extends VerticalLayout implements
     private Button share = new Button("Share");
     private Button help = new Button("Help");
     private Button main = new Button("Main");
-    private Button saveUser = new Button("Save user");
-    private Button savePerson = new Button("Save person");
+    private Button save = new Button("Save");
+    private Button discard = new Button("Discard");
     private HorizontalSplitPanel horizontalSplit = new HorizontalSplitPanel();
     private NavigationTree tree = new NavigationTree(this);
-    private VerticalLayout leftForm;
+    private LeftForm leftForm;
     private PersonList personList = null;
     private CommandForm commandForm = null;
     private PersonForm personForm = null;
@@ -63,8 +64,8 @@ public class PersonWidget extends VerticalLayout implements
         horizontalSplit.setSplitPosition(250, HorizontalSplitPanel.UNITS_PIXELS);
         horizontalSplit.setFirstComponent(setLeftForm(FormType.COMMANDS));
         main.addListener((Button.ClickListener) this);
-        saveUser.addListener((Button.ClickListener) this);
-        savePerson.addListener((Button.ClickListener) this);
+        save.addListener((Button.ClickListener) this);
+        discard.addListener((Button.ClickListener) this);
         personDataSource = new PersonReferenceContainer(personService);
         getDataSource().refresh();
         horizontalSplit.setSecondComponent(getPersonList());
@@ -76,43 +77,71 @@ public class PersonWidget extends VerticalLayout implements
         USER,
         FIND
     }
+    
+    private class LeftForm extends VerticalLayout {
 
-    public void discardLeftForms() {
+        private EntityForm form;
+        
+        private Button save;
+        
+        private Button discard;
+        
+        private HorizontalLayout buttons;
 
+        private LeftForm(Button save, Button discard) {
+            this.save = save;
+            this.discard = discard;
+            buttons = new HorizontalLayout();
+            buildButtonPanel();
+        }
+
+        public EntityForm getForm() {
+            return form;
+        }
+
+        public void setForm(EntityForm form) {
+            removeAllComponents();
+            this.form = form;
+            addComponent(form);
+            buildButtonPanel();
+        }
+
+        private void buildButtonPanel() {
+            buttons.addComponent(save);
+            buttons.addComponent(discard);
+            addComponent(buttons);
+        }
     }
 
-    public VerticalLayout setLeftForm(FormType type) {
+    public LeftForm setLeftForm(FormType type) {
         if (type == FormType.COMMANDS) {
             getLeftForm().removeAllComponents();
             leftForm.addComponent(getCommandForm());
             return leftForm;
         } else
         if (type == FormType.PERSON) {
-            getLeftForm().removeAllComponents();
-            leftForm.addComponent(getPersonForm());
-            getLeftForm().addComponent(main);
+            getLeftForm().setForm(getPersonForm());
+            leftForm.addComponent(main);
             return leftForm;
         } else
         if (type == FormType.USER) {
-            getLeftForm().removeAllComponents();
-            leftForm.addComponent(getPersonForm());
-            leftForm.addComponent(getUserForm());
-            getLeftForm().addComponent(main);
+            getLeftForm().setForm(getUserForm());
+            leftForm.addComponent(main);
             return leftForm;
         } else
         if (type == FormType.FIND) {
             getLeftForm().removeAllComponents();
             leftForm.addComponent(new Label(type.name()));
-            getLeftForm().addComponent(main);
+            leftForm.addComponent(main);
             return leftForm;
         }
         return getLeftForm();
     }
 
     // lazy initialization pattern
-    private VerticalLayout getLeftForm() {
+    private LeftForm getLeftForm() {
         if (leftForm == null) {
-            leftForm = new VerticalLayout();
+            leftForm = new LeftForm(save, discard);
             leftForm.setMargin(true);
         }  return leftForm;
     }
@@ -134,7 +163,7 @@ public class PersonWidget extends VerticalLayout implements
     // lazy initialization pattern
     private PersonForm getPersonForm() {
         if (personForm == null) {
-            personForm = new PersonForm(this);
+            personForm = new PersonForm();
         } return personForm;
     }
 
@@ -232,10 +261,10 @@ public class PersonWidget extends VerticalLayout implements
             app.getMainWindow().addWindow(getSharingOptions());
         } else if (source == main) {
             setLeftForm(FormType.COMMANDS);
-        } else if (source == savePerson) {
-            setLeftForm(FormType.COMMANDS);
-        } else if (source == saveUser) {
-            setLeftForm(FormType.COMMANDS);
+        } else if (source == discard) {
+            leftForm.getForm().discard();
+        } else if (source == save) {
+            leftForm.getForm().save();
         }
     }
 

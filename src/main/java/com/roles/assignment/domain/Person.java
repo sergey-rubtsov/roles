@@ -34,12 +34,6 @@ public class Person implements Serializable {
 	@Size(min = 1)
 	private String lastName = "";
 
-	@NotNull
-	@Size(min = 3)
-	// @Pattern(regexp =
-	// "^[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{2,})$")
-	private String email = "";
-
 	// @Pattern(regexp =
 	// "^((\\+)?[1-9]{1,2})?([-\\s\\.])?((\\(\\d{1,4}\\))|\\d{1,4})(([-\\s\\.])?[0-9]{1,12}){1,2}$")
 	private String phoneNumber = "";
@@ -112,14 +106,6 @@ public class Person implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPhoneNumber() {

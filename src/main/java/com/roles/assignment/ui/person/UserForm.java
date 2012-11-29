@@ -2,11 +2,11 @@ package com.roles.assignment.ui.person;
 
 import com.roles.assignment.domain.User;
 import com.roles.assignment.service.UserService;
+import com.roles.assignment.ui.EntityForm;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Button.ClickEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -14,56 +14,47 @@ import java.util.Arrays;
 
 @SuppressWarnings("serial")
 @Configurable(preConstruction=true)
-public class UserForm extends VerticalLayout {
+public class UserForm extends VerticalLayout implements EntityForm<User> {
 
     @Autowired
     UserService userService;
 
     User user;
 
-    private static final String COMMON_FIELD_WIDTH = "12em";
+    final Form userForm;
+
+    PersonForm personForm;
 
     public UserForm() {
         user = new User();
         BeanItem<User> personItem = new BeanItem<User>(user);
-
-        final Form userForm = new Form();
-
+        userForm = new Form();
         userForm.setWriteThrough(false);
         userForm.setInvalidCommitted(false);
-
-
         userForm.setFormFieldFactory(new PersonFieldFactory());
         userForm.setItemDataSource(personItem);
-
         userForm.setVisibleItemProperties(Arrays.asList(new String[]{
                 "login", "password", "email", "role"}));
+        //addComponent(userForm);
+        PersonForm personForm = new PersonForm();
+        personForm.addComponentAsFirst(userForm);
+        addComponent(personForm);
+    }
 
-        addComponent(userForm);
+    @Override
+    public void save() {
+        userService.saveUser(getEntity(), personForm.getEntity());
+    }
 
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.setSpacing(true);
-        Button discardChanges = new Button("Discard changes",
-                new Button.ClickListener() {
-                    public void buttonClick(ClickEvent event) {
-                        userForm.discard();
-                    }
-                });
-        buttons.addComponent(discardChanges);
-        buttons.setComponentAlignment(discardChanges, Alignment.MIDDLE_LEFT);
+    @Override
+    public User getEntity() {
+        userForm.commit();
+        return user;
+    }
 
-        Button apply = new Button("Apply", new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
-                try {
-                    userForm.commit();
-                    userService.saveUser(user);
-                } catch (Exception e) {
-                }
-            }
-        });
-        buttons.addComponent(apply);
-        userForm.getFooter().addComponent(buttons);
-        userForm.getFooter().setMargin(false, false, true, true);
+    @Override
+    public void discard() {
+        userForm.discard();
     }
 
     private class PersonFieldFactory extends DefaultFieldFactory {
@@ -77,7 +68,6 @@ public class UserForm extends VerticalLayout {
                 TextField tf = (TextField) f;
                 tf.setRequired(true);
                 tf.setRequiredError("Please enter a First Name");
-                tf.setWidth(COMMON_FIELD_WIDTH);
                 tf.addValidator(new StringLengthValidator(
                         "Login must be 1-25 characters", 1, 25, false));
             } else if ("password".equals(propertyId)) {
@@ -95,6 +85,5 @@ public class UserForm extends VerticalLayout {
             return pf;
         }
     }
-
 
 }

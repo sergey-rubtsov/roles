@@ -26,9 +26,11 @@ public class User implements Serializable {
     @Column(name = "version")
     private Integer version;
 
-	@Column
-    @Size(max = 32)
-	private String email;
+    @NotNull
+    @Size(min = 1)
+    // @Pattern(regexp =
+    // "^[_A-Za-z0-9-]+(\\\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{2,})$")
+    private String email = "";
 
 	@Column(unique=true, nullable=false)
     @Size(max = 32)

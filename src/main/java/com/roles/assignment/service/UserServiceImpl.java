@@ -107,9 +107,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user, Person userDetails) {
-        user.setPerson(userDetails);
+        userDetails.setUser(user);
         userDetails = personRepository.save(userDetails);
-        //user.setPerson(userDetails);
+        user.setPerson(userDetails);
         return userRepository.save(user);
     }
 
