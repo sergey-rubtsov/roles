@@ -7,7 +7,6 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.themes.BaseTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -29,7 +28,7 @@ public class UserForm extends VerticalLayout {
         BeanItem<User> personItem = new BeanItem<User>(user);
 
         final Form userForm = new Form();
-        userForm.setCaption("User details");
+
         userForm.setWriteThrough(false);
         userForm.setInvalidCommitted(false);
 
@@ -50,7 +49,6 @@ public class UserForm extends VerticalLayout {
                         userForm.discard();
                     }
                 });
-        discardChanges.setStyleName(BaseTheme.BUTTON_LINK);
         buttons.addComponent(discardChanges);
         buttons.setComponentAlignment(discardChanges, Alignment.MIDDLE_LEFT);
 
@@ -97,4 +95,6 @@ public class UserForm extends VerticalLayout {
             return pf;
         }
     }
+
+
 }

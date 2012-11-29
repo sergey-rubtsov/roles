@@ -4,6 +4,7 @@ import com.roles.assignment.StartApplication;
 import com.roles.assignment.Widget;
 import com.roles.assignment.domain.Person;
 import com.roles.assignment.service.PersonService;
+import com.roles.assignment.service.UserService;
 import com.roles.assignment.ui.help.HelpWindow;
 import com.roles.assignment.ui.persons.*;
 import com.vaadin.data.Property;
@@ -17,6 +18,7 @@ import com.vaadin.ui.Window.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
+@SuppressWarnings("serial")
 @Configurable(preConstruction=true)
 public class PersonWidget extends VerticalLayout implements
         Button.ClickListener, Property.ValueChangeListener, ItemClickListener, Widget {
@@ -25,6 +27,8 @@ public class PersonWidget extends VerticalLayout implements
     private Button share = new Button("Share");
     private Button help = new Button("Help");
     private Button main = new Button("Main");
+    private Button saveUser = new Button("Save user");
+    private Button savePerson = new Button("Save person");
     private HorizontalSplitPanel horizontalSplit = new HorizontalSplitPanel();
     private NavigationTree tree = new NavigationTree(this);
     private VerticalLayout leftForm;
@@ -37,6 +41,9 @@ public class PersonWidget extends VerticalLayout implements
 
     @Autowired
     PersonService personService;
+
+    @Autowired
+    UserService userService;
 
     private PersonReferenceContainer personDataSource;
 
@@ -56,6 +63,8 @@ public class PersonWidget extends VerticalLayout implements
         horizontalSplit.setSplitPosition(250, HorizontalSplitPanel.UNITS_PIXELS);
         horizontalSplit.setFirstComponent(setLeftForm(FormType.COMMANDS));
         main.addListener((Button.ClickListener) this);
+        saveUser.addListener((Button.ClickListener) this);
+        savePerson.addListener((Button.ClickListener) this);
         personDataSource = new PersonReferenceContainer(personService);
         getDataSource().refresh();
         horizontalSplit.setSecondComponent(getPersonList());
@@ -66,6 +75,10 @@ public class PersonWidget extends VerticalLayout implements
         PERSON,
         USER,
         FIND
+    }
+
+    public void discardLeftForms() {
+
     }
 
     public VerticalLayout setLeftForm(FormType type) {
@@ -190,7 +203,6 @@ public class PersonWidget extends VerticalLayout implements
         horizontalSplit.setSecondComponent(getSearchView());
     }
 
-
     @Override
     public PersonReferenceContainer getDataSource() {
         return personDataSource;
@@ -219,6 +231,10 @@ public class PersonWidget extends VerticalLayout implements
         } else if (source == share) {
             app.getMainWindow().addWindow(getSharingOptions());
         } else if (source == main) {
+            setLeftForm(FormType.COMMANDS);
+        } else if (source == savePerson) {
+            setLeftForm(FormType.COMMANDS);
+        } else if (source == saveUser) {
             setLeftForm(FormType.COMMANDS);
         }
     }

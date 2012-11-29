@@ -7,7 +7,6 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.themes.BaseTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -33,7 +32,7 @@ public class PersonForm extends VerticalLayout {
         BeanItem<Person> personItem = new BeanItem<Person>(person);
 
         final Form personForm = new Form();
-        personForm.setCaption("Personal details");
+
         personForm.setWriteThrough(false);
         personForm.setInvalidCommitted(false);
 
@@ -54,7 +53,6 @@ public class PersonForm extends VerticalLayout {
                         personForm.discard();
                     }
                 });
-        discardChanges.setStyleName(BaseTheme.BUTTON_LINK);
         buttons.addComponent(discardChanges);
         buttons.setComponentAlignment(discardChanges, Alignment.MIDDLE_LEFT);
 
@@ -65,7 +63,6 @@ public class PersonForm extends VerticalLayout {
                     personService.savePerson(person);
                     //showPojoState();
                 } catch (Exception e) {
-                    // Ignored, we'll let the Form handle the errors
                 }
             }
         });
