@@ -102,4 +102,17 @@ public class SummaryUserData implements Serializable {
         person.setBirthdate(getBirthdate());
         return person;
     }
+
+    public void setUser(User user) {
+        setLogin(user.getLogin());
+        setPassword(user.getPassword());
+        setEmail(user.getEmail());
+    }
+    
+    public void setPerson(Person person) {
+        setFirstName(person.getFirstName());
+        setLastName(person.getLastName());
+        setPhoneNumber(person.getPhoneNumber());
+        setBirthdate(person.getBirthdate());
+    }
 }

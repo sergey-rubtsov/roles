@@ -7,7 +7,10 @@ import com.roles.assignment.service.PersonService;
 import com.roles.assignment.service.UserService;
 import com.roles.assignment.ui.EntityForm;
 import com.roles.assignment.ui.help.HelpWindow;
-import com.roles.assignment.ui.persons.*;
+import com.roles.assignment.ui.persons.PersonReferenceContainer;
+import com.roles.assignment.ui.persons.SearchFilter;
+import com.roles.assignment.ui.persons.SearchView;
+import com.roles.assignment.ui.persons.SharingOptions;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.event.ItemClickEvent;
@@ -15,7 +18,6 @@ import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Window.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -31,7 +33,7 @@ public class PersonWidget extends VerticalLayout implements
     private Button save = new Button("Save");
     private Button discard = new Button("Discard");
     private HorizontalSplitPanel horizontalSplit = new HorizontalSplitPanel();
-    private NavigationTree tree = new NavigationTree(this);
+
     private LeftForm leftForm;
     private PersonList personList = null;
     private CommandForm commandForm = null;
@@ -61,14 +63,15 @@ public class PersonWidget extends VerticalLayout implements
         this.addComponent(createToolbar());
         this.addComponent(horizontalSplit);
         this.setExpandRatio(horizontalSplit, 1);
-        horizontalSplit.setSplitPosition(250, HorizontalSplitPanel.UNITS_PIXELS);
+        horizontalSplit.setSplitPosition(270, HorizontalSplitPanel.UNITS_PIXELS);
         horizontalSplit.setFirstComponent(setLeftForm(FormType.COMMANDS));
         main.addListener((Button.ClickListener) this);
         save.addListener((Button.ClickListener) this);
         discard.addListener((Button.ClickListener) this);
-//        personDataSource = new PersonReferenceContainer(personService);
-//        getDataSource().refresh();
-//        horizontalSplit.setSecondComponent(getPersonList());
+
+        //personDataSource = new PersonReferenceContainer(personService);
+        //getDataSource().refresh();
+        //horizontalSplit.setSecondComponent(getPersonList());
     }
 
     public enum FormType {
@@ -237,10 +240,6 @@ public class PersonWidget extends VerticalLayout implements
         return personDataSource;
     }
 
-    public PersonService getPersonService() {
-        return personService;
-    }
-
     public void valueChange(ValueChangeEvent event) {
         Property property = event.getProperty();
         if (property == personList) {
@@ -268,22 +267,6 @@ public class PersonWidget extends VerticalLayout implements
         }
     }
 
-    public void itemClick(ItemClickEvent event) {
-        if (event.getSource() == tree) {
-            Object itemId = event.getItemId();
-            if (itemId != null) {
-                if (NavigationTree.SHOW_ALL.equals(itemId)) {
-                    getDataSource().refresh(PersonReferenceContainer.defaultQueryMetaData);
-                    showListView();
-                } else if (NavigationTree.SEARCH.equals(itemId)) {
-                    showSearchView();
-                } else if (itemId instanceof SearchFilter) {
-                    search((SearchFilter) itemId);
-                }
-            }
-        }
-    }
-
     private void showListView() {
         //setMainComponent(getListView());
     }
@@ -291,44 +274,6 @@ public class PersonWidget extends VerticalLayout implements
     private void addNewContanct() {
         showListView();
         //personForm.addContact();
-    }
-
-    @Override
-    public void saveSearch(SearchFilter searchFilter) {
-        tree.addItem(searchFilter);
-        tree.setParent(searchFilter, NavigationTree.SEARCH);
-        // mark the saved search as a leaf (cannot have children)
-        tree.setChildrenAllowed(searchFilter, false);
-        // make sure "Search" is expanded
-        tree.expandItem(NavigationTree.SEARCH);
-        // select the saved search
-        tree.setValue(searchFilter);
-    }
-
-    @Override
-    public void search(SearchFilter searchFilter) {
-        QueryMetaData qmd = new QueryMetaData(
-                (String) searchFilter.getPropertyId(), searchFilter.getTerm(),
-                getDataSource().getQueryMetaData().getOrderBy(),
-                getDataSource().getQueryMetaData().getAscending());
-        getDataSource().refresh(qmd);
-        showListView();
-        showNotification(searchFilter);
-    }
-
-    private void showNotification(SearchFilter searchFilter) {
-        if (getDataSource().size() > 0) {
-            app.getMainWindow().showNotification(
-                    "Searched for " + searchFilter.getPropertyId() + "=*"
-                            + searchFilter.getTerm() + "*, found "
-                            + getDataSource().size() + " item(s).",
-                    Notification.TYPE_TRAY_NOTIFICATION);
-        } else {
-            app.getMainWindow().showNotification(
-                    "Searched for " + searchFilter.getPropertyId() + "=*"
-                            + searchFilter.getTerm() + "*, person not found.",
-                    Notification.TYPE_TRAY_NOTIFICATION);
-        }
     }
 
     @Override
@@ -343,5 +288,21 @@ public class PersonWidget extends VerticalLayout implements
         return new String[] {
                 "First name", "Last name", "Email", "Phone number",
                 "Street Address", "Postal Code", "City" };
+    }
+
+    @Override
+    public void search(SearchFilter searchFilter) {
+        //create me
+    }
+
+
+    @Override
+    public void itemClick(ItemClickEvent event) {
+        //create me
+    }
+
+    @Override
+    public void saveSearch(SearchFilter searchFilter) {
+        //create me
     }
 }

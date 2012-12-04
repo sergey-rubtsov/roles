@@ -1,6 +1,5 @@
 package com.roles.assignment.ui.person;
 
-import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
@@ -14,7 +13,7 @@ public class CommandForm extends VerticalLayout implements
         Button.ClickListener {
 
     private Button newPerson = new Button("Add person");
-    private Button newUser = new Button("Add person");
+    private Button newUser = new Button("Add user");
     private Button find = new Button("Search");
     private Button share = new Button("Share");
     private PersonWidget personWidget;
@@ -22,18 +21,19 @@ public class CommandForm extends VerticalLayout implements
     public CommandForm(PersonWidget personWidget) {
         addComponent(new Label("Commands"));
         this.personWidget = personWidget;
-        newPerson.setIcon(new ThemeResource("icons/32/document-add.png"));
         newPerson.addListener(this);
+        newPerson.setWidth("120px");
         addComponent(newPerson);
-        newUser.setIcon(new ThemeResource("icons/32/document-add.png"));
         newUser.addListener(this);
+        newUser.setWidth("120px");
         addComponent(newUser);
-        find.setIcon(new ThemeResource("icons/32/folder-add.png"));
         find.addListener(this);
+        find.setWidth("120px");
         addComponent(find);
-        share.setIcon(new ThemeResource("icons/32/users.png"));
         share.addListener(this);
+        share.setWidth("120px");
         addComponent(share);
+        this.setSpacing(true);
     }
 
     @Override
