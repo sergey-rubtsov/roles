@@ -1,12 +1,11 @@
 package com.roles.assignment;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Window;
-import com.roles.assignment.domain.Person;
 import com.roles.assignment.domain.SystemRoles;
 import com.roles.assignment.domain.User;
 import com.roles.assignment.service.PersonService;
 import com.roles.assignment.service.UserService;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Window;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -36,19 +35,20 @@ public class StartApplication extends SpringContextApplication {
         createMainLayout();
     }
 
+    //test only
     private void initDataBase() {
         User user = new User();
         user.setLogin(SystemRoles.ROLE_USER.roleValue());
         user.setPassword(SystemRoles.ROLE_USER.roleValue());
-        //userService.saveUser(user);
+        user.setEmail("aaa@aaa.aa");
+        user = userService.saveUser(user);
         userService.addSystemUserRole(user);
         User admin = new User();
         admin.setLogin(SystemRoles.ROLE_ADMIN.roleValue());
         admin.setPassword(SystemRoles.ROLE_ADMIN.roleValue());
-        //userService.saveUser(admin);
+        admin.setEmail("bbb@bbb.bb");
+        admin = userService.saveUser(admin);
         userService.addSystemAdminRole(admin);
-
-        Person test1 = new Person();
     }
 
     private void createMainLayout() {
@@ -60,15 +60,12 @@ public class StartApplication extends SpringContextApplication {
 
     public void login(String username, String password) {
         UsernamePasswordToken token;
-
         token = new UsernamePasswordToken(username, password);
         // ”Remember Me” built-in, just do this:
         token.setRememberMe(true);
-
         // With most of Shiro, you'll always want to make sure you're working with the currently executing user,
         // referred to as the subject
         Subject currentUser = SecurityUtils.getSubject();
-
         // Authenticate
         currentUser.login(token);
     }

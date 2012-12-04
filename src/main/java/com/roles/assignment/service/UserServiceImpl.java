@@ -84,6 +84,8 @@ public class UserServiceImpl implements UserService {
         if (newRole == null) {
             newRole = roleRepository.save(role);
         }
+        newRole.getUsers().add(user);
+        roleRepository.save(newRole);
         user.addRole(newRole);
         return userRepository.save(user);
     }

@@ -66,9 +66,9 @@ public class PersonWidget extends VerticalLayout implements
         main.addListener((Button.ClickListener) this);
         save.addListener((Button.ClickListener) this);
         discard.addListener((Button.ClickListener) this);
-        personDataSource = new PersonReferenceContainer(personService);
-        getDataSource().refresh();
-        horizontalSplit.setSecondComponent(getPersonList());
+//        personDataSource = new PersonReferenceContainer(personService);
+//        getDataSource().refresh();
+//        horizontalSplit.setSecondComponent(getPersonList());
     }
 
     public enum FormType {

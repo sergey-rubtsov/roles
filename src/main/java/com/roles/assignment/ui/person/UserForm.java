@@ -3,6 +3,7 @@ package com.roles.assignment.ui.person;
 import com.roles.assignment.domain.User;
 import com.roles.assignment.service.UserService;
 import com.roles.assignment.ui.EntityForm;
+import com.roles.assignment.ui.entity.SummaryUserData;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -19,37 +20,32 @@ public class UserForm extends VerticalLayout implements EntityForm<User> {
     @Autowired
     UserService userService;
 
-    User user;
+    SummaryUserData userData;
 
     final Form userForm;
 
-    PersonForm personForm;
-
     public UserForm() {
-        user = new User();
-        BeanItem<User> personItem = new BeanItem<User>(user);
+        userData = new SummaryUserData();
+        BeanItem<SummaryUserData> personItem = new BeanItem<SummaryUserData>(userData);
         userForm = new Form();
         userForm.setWriteThrough(false);
         userForm.setInvalidCommitted(false);
         userForm.setFormFieldFactory(new PersonFieldFactory());
         userForm.setItemDataSource(personItem);
         userForm.setVisibleItemProperties(Arrays.asList(new String[]{
-                "login", "password", "email", "role"}));
-        //addComponent(userForm);
-        PersonForm personForm = new PersonForm();
-        personForm.addComponentAsFirst(userForm);
-        addComponent(personForm);
+                "login", "password", "email", "firstName", "lastName", "phoneNumber", "birthdate"}));
+        addComponent(userForm);
     }
 
     @Override
     public void save() {
-        userService.saveUser(getEntity(), personForm.getEntity());
+        userService.saveUser(getEntity(), userData.getPerson());
     }
 
     @Override
     public User getEntity() {
         userForm.commit();
-        return user;
+        return userData.getUser();
     }
 
     @Override
@@ -85,5 +81,4 @@ public class UserForm extends VerticalLayout implements EntityForm<User> {
             return pf;
         }
     }
-
 }

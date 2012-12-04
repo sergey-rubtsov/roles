@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class Role implements Serializable {
     }
 
     @ManyToMany(mappedBy="roles")
-    private List<User> users;
+    private List<User> users = new ArrayList<User>();
 
     public void setUsers(List<User> users) {
         this.users = users;

@@ -49,6 +49,7 @@ public class LoginScreen extends VerticalLayout {
             app.getMainWindow().setContent(new AdminWindow(app));
 
             try {
+                //disabled authentication for the test
 /*                app.login(username, password);
                 Subject currentUser = SecurityUtils.getSubject();
                 if (currentUser.hasRole(SystemRoles.ROLE_ADMIN.roleValue())) {
