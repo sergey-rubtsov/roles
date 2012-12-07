@@ -1,7 +1,7 @@
 package com.roles.assignment;
 
-import com.roles.assignment.ui.persons.ReferenceContainer;
 import com.roles.assignment.ui.persons.SearchFilter;
+import com.vaadin.data.Container;
 
 /**
  * User: RubtsovSL
@@ -16,7 +16,7 @@ public interface Widget {
 
     public void search(SearchFilter searchFilter);
 
-    ReferenceContainer getDataSource();
+    Container getDataSource();
 
     void saveSearch(SearchFilter searchFilter);
 }

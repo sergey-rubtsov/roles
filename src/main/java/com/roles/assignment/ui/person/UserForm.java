@@ -3,7 +3,7 @@ package com.roles.assignment.ui.person;
 import com.roles.assignment.domain.User;
 import com.roles.assignment.service.UserService;
 import com.roles.assignment.ui.EntityForm;
-import com.roles.assignment.ui.entity.SummaryUserData;
+import com.roles.assignment.ui.items.UserItem;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -20,13 +20,13 @@ public class UserForm extends VerticalLayout implements EntityForm<User> {
     @Autowired
     UserService userService;
 
-    SummaryUserData userData;
+    UserItem userData;
 
     final Form userForm;
 
     public UserForm() {
-        userData = new SummaryUserData();
-        BeanItem<SummaryUserData> personItem = new BeanItem<SummaryUserData>(userData);
+        userData = new UserItem();
+        BeanItem<UserItem> personItem = new BeanItem<UserItem>(userData);
         userForm = new Form();
         userForm.setWriteThrough(false);
         userForm.setInvalidCommitted(false);

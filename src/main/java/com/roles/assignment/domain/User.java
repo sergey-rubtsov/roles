@@ -27,7 +27,7 @@ public class User implements Serializable {
     public String id;
 
     @Version
-    @Column(name = "version")
+    @Column
     private Integer version;
 
     @NotNull

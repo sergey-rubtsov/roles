@@ -129,7 +129,7 @@ public class PersonForm extends Form implements ClickListener {
 			commit();
             personService.savePerson(newPerson);
 			setItemDataSource(new BeanItem(newPerson));
-			app.getDataSource().refresh();
+			//app.getDataSource().refresh();
 			newContactMode = false;
 			setReadOnly(true);
 		} else if (source == cancel) {

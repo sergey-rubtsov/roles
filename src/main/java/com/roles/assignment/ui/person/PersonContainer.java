@@ -1,10 +1,14 @@
 package com.roles.assignment.ui.person;
 
+import com.roles.assignment.domain.Person;
+import com.roles.assignment.service.PersonService;
+import com.roles.assignment.ui.items.DataItem;
+import com.roles.assignment.ui.items.PersonItem;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * User: RubtsovSL
@@ -13,12 +17,29 @@ import java.util.Collection;
  */
 public class PersonContainer implements Container {
 
-    public PersonContainer() {
+    private List<DataItem> itemList;
+    private PersonService personService;
+    private Map<Object, DataItem> itemsMap;
+    
+    public PersonContainer(PersonService personService) {
+        this.personService = personService;
+        this.itemList = new ArrayList<DataItem>();
+    }
+
+    public void refresh() {
+        List<Person> persons = personService.findAllPeople();
+        for (Person person : persons) {
+            itemList.add(new PersonItem(person));
+        }
+        itemsMap = new HashMap<Object, DataItem>(itemList.size());
+        for (DataItem pi : itemList) {
+            itemsMap.put(pi.getId(), pi);
+        }
     }
 
     @Override
     public Item getItem(Object itemId) {
-        return null;  //create me
+        return itemsMap.get(itemId);
     }
 
     @Override
@@ -28,7 +49,7 @@ public class PersonContainer implements Container {
 
     @Override
     public Collection<?> getItemIds() {
-        return null;  //create me
+        return Collections.unmodifiableSet(itemsMap.keySet());
     }
 
     @Override
@@ -43,12 +64,13 @@ public class PersonContainer implements Container {
 
     @Override
     public int size() {
-        return 0;  //create me
+        if (itemList == null) return 0;
+        return itemList.size();
     }
 
     @Override
     public boolean containsId(Object itemId) {
-        return false;  //create me
+        return itemsMap.containsKey(itemId);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Role implements Serializable {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     public String id;
 
-    @Column(name = "role", unique=true, nullable=false)
+    @Column(unique=true, nullable=false)
     @Size(max = 32)
     private String role;
 

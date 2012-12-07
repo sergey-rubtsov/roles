@@ -7,7 +7,6 @@ import com.roles.assignment.service.PersonService;
 import com.roles.assignment.service.UserService;
 import com.roles.assignment.ui.EntityForm;
 import com.roles.assignment.ui.help.HelpWindow;
-import com.roles.assignment.ui.persons.PersonReferenceContainer;
 import com.roles.assignment.ui.persons.SearchFilter;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -44,7 +43,7 @@ public class PersonWidget extends VerticalLayout implements
     @Autowired
     UserService userService;
 
-    private PersonReferenceContainer personDataSource;
+    private PersonContainer personDataSource;
 
     private static final long serialVersionUID = -1481094776783567319L;
 
@@ -63,7 +62,8 @@ public class PersonWidget extends VerticalLayout implements
         horizontalSplit.setFirstComponent(setLeftForm(FormType.COMMANDS));
         save.addListener((Button.ClickListener) this);
         discard.addListener((Button.ClickListener) this);
-
+        personDataSource = new PersonContainer(personService);
+        personDataSource.refresh();
         //personDataSource = new PersonReferenceContainer(personService);
         //getDataSource().refresh();
         //horizontalSplit.setSecondComponent(getPersonList());
@@ -194,7 +194,7 @@ public class PersonWidget extends VerticalLayout implements
     }
 
     @Override
-    public PersonReferenceContainer getDataSource() {
+    public PersonContainer getDataSource() {
         return personDataSource;
     }
 

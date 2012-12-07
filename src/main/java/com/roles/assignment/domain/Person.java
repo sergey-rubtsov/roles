@@ -23,7 +23,7 @@ public class Person implements Serializable {
     public String id;
 
     @Version
-    @Column(name = "version")
+    @Column
     private Integer version;
 
 	@NotNull
@@ -48,7 +48,7 @@ public class Person implements Serializable {
 	private String city = "";
 
     @Temporal(TemporalType.DATE)
-    @Column(name="birthdate")
+    @Column
     private Date birthdate;
 
     @OneToMany

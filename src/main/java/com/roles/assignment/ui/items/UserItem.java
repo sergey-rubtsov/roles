@@ -1,9 +1,11 @@
-package com.roles.assignment.ui.entity;
+package com.roles.assignment.ui.items;
 
 import com.roles.assignment.domain.Person;
 import com.roles.assignment.domain.User;
+import com.vaadin.data.Property;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -11,7 +13,9 @@ import java.util.Date;
  * Date: 04.12.12
  * Time: 11:05
  */
-public class SummaryUserData implements Serializable {
+public class UserItem implements Serializable, DataItem {
+
+    private String userId;
 
     private String firstName = "";
 
@@ -27,7 +31,21 @@ public class SummaryUserData implements Serializable {
 
     private String password;
 
-    public SummaryUserData() {
+    public UserItem() {
+    }
+
+    public UserItem(User user) {
+        setUser(user);
+        setPerson(user.getPerson());
+    }
+
+    @Override
+    public String getId() {
+        return userId;
+    }
+
+    public void setId(String userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -88,6 +106,7 @@ public class SummaryUserData implements Serializable {
     
     public User getUser() {
         User user = new User();
+        user.setId(getId());
         user.setLogin(getLogin());
         user.setPassword(getPassword());
         user.setEmail(getEmail());
@@ -104,6 +123,7 @@ public class SummaryUserData implements Serializable {
     }
 
     public void setUser(User user) {
+        setId(user.getId());
         setLogin(user.getLogin());
         setPassword(user.getPassword());
         setEmail(user.getEmail());
@@ -114,5 +134,25 @@ public class SummaryUserData implements Serializable {
         setLastName(person.getLastName());
         setPhoneNumber(person.getPhoneNumber());
         setBirthdate(person.getBirthdate());
+    }
+
+    @Override
+    public Property getItemProperty(Object id) {
+        return null;  //create me
+    }
+
+    @Override
+    public Collection<?> getItemPropertyIds() {
+        return null;  //create me
+    }
+
+    @Override
+    public boolean addItemProperty(Object id, Property property) throws UnsupportedOperationException {
+        return false;  //create me
+    }
+
+    @Override
+    public boolean removeItemProperty(Object id) throws UnsupportedOperationException {
+        return false;  //create me
     }
 }
