@@ -8,6 +8,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 
+import java.beans.PropertyDescriptor;
 import java.util.*;
 
 /**
@@ -20,9 +21,23 @@ public class PersonContainer implements Container {
     private List<DataItem> itemList;
     private PersonService personService;
     private Map<Object, DataItem> itemsMap;
+    protected ArrayList<ItemSetChangeListener> listeners = new ArrayList<ItemSetChangeListener>();
+
+    public static final Object[] NATURAL_COL_ORDER = new String[] {
+            "firstName", "lastName"};
+    protected static final Collection<Object> NATURAL_COL_ORDER_COLL = Collections
+            .unmodifiableList(Arrays.asList(NATURAL_COL_ORDER));
     
     public PersonContainer(PersonService personService) {
         this.personService = personService;
+        Person person = new Person();
+        person.setFirstName("Santa");
+        person.setLastName("Klaus");
+        Person person2 = new Person();
+        person2.setFirstName("Darth");
+        person2.setLastName("Vader");
+        this.personService.savePerson(person);
+        this.personService.savePerson(person2);
         this.itemList = new ArrayList<DataItem>();
     }
 
@@ -44,7 +59,7 @@ public class PersonContainer implements Container {
 
     @Override
     public Collection<?> getContainerPropertyIds() {
-        return null;  //create me
+        return NATURAL_COL_ORDER_COLL;
     }
 
     @Override
@@ -54,12 +69,22 @@ public class PersonContainer implements Container {
 
     @Override
     public Property getContainerProperty(Object itemId, Object propertyId) {
-        return null;  //create me
+        Item item = itemsMap.get(itemId);
+        if (item != null) {
+            return item.getItemProperty(propertyId);
+        }
+        return null;
     }
 
     @Override
     public Class<?> getType(Object propertyId) {
-        return null;  //create me
+        try {
+            // TODO Optimize, please!
+            PropertyDescriptor pd = new PropertyDescriptor((String) propertyId, Person.class);
+            return pd.getPropertyType();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -101,5 +126,29 @@ public class PersonContainer implements Container {
     @Override
     public boolean removeAllItems() throws UnsupportedOperationException {
         return false;  //create me
+    }
+
+    public synchronized void addListener(ItemSetChangeListener listener) {
+        listeners.add(listener);
+    }
+
+    public synchronized void removeListener(ItemSetChangeListener listener) {
+        listeners.remove(listener);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected void notifyListeners() {
+        ArrayList<ItemSetChangeListener> cl = (ArrayList<ItemSetChangeListener>) listeners
+                .clone();
+        ItemSetChangeEvent event = new ItemSetChangeEvent() {
+
+            public Container getContainer() {
+                return PersonContainer.this;
+            }
+        };
+
+        for (ItemSetChangeListener listener : cl) {
+            listener.containerItemSetChange(event);
+        }
     }
 }
